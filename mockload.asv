@@ -1,0 +1,24 @@
+function output_value = mockload();
+
+% Persistent so variable retians value in memory between calls
+% Matlab essentially creates dedicated memory for them
+persistent loaded;
+persistent numeric_Image;
+
+% Once we load the images once in MatLab, they will forever be stored
+if(isempty(loaded))
+    all_Images = zeros(10304,40);
+    for folders = 1:40
+        cd(folders);
+        for images = 1:10
+            image_Container = imread(strcat(num2str(images),'.pgm'));
+            all_Images(:,(folders-1)*10+images) = reshape(image_Container,size(image_Container,1)*size(image_Container,2),1);
+        end
+        display('Loading Image Database');
+        cd ..
+    end
+    % Convert to 8 unsigned integers to save memory space
+    numeric_Image = uint8(all_Images);
+end
+loaded = 1;
+output_value = numeric_Image;
