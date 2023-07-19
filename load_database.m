@@ -13,7 +13,7 @@ if(isempty(loaded))
 
     % Run a for loop to concatenate each folder to MATLAB cd
     for folders = 1:40
-        cd(strcat('s',num2str(folders)));
+        cd(strcat('Dataset\s',num2str(folders)));
         % Nested for loop to add pictures image container
         for images = 1:10
             % Read each image within the folder.

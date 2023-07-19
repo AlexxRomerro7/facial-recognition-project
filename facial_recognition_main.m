@@ -22,30 +22,32 @@ L=single(mean_Removed)'*single(mean_Removed);
 V=single(mean_Removed)*V;
 V=V(:,end:-1:end-(image_Signature-1)); 
 
+% Create difference in original signature photo compared to all images
 all_image_Signature=zeros(size(rest_of_the_images,2),image_Signature);
-for i=1:size(rest_of_the_images,2);
+for i=1:size(rest_of_the_images,2)
     all_image_Signature(i,:)=single(mean_Removed(:,i))'*V;  
 end
 
-% Create subplot for the original face we are looking for
+% Create subplot for the original face.
 subplot(121);
 imshow(reshape(random_Image,112,92));
 title('Looking for this Face','FontWeight','bold','Fontsize',16,'color','red');
 
-
+% Create second subplot for the picture match.
 subplot(122);
 p=random_Image-mean_value;
 s=single(p)'*V;
 z=[];
 
-
+% Create a for loop to cycle though all photos until a match is found.
 for i=1:size(rest_of_the_images,2)
     z=[z,norm(all_image_Signature(i,:)-s,2)];
-    if(rem(i,20)==0),imshow(reshape(rest_of_the_images(:,i),112,92)),end;
+    if(rem(i,20)==0),imshow(reshape(rest_of_the_images(:,i),112,92))
+        end
     drawnow;
 end
 
-
+% Replace the subplot image for the image match
 [a,i]=min(z);
 subplot(122);
 imshow(reshape(rest_of_the_images(:,i),112,92));
